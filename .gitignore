@@ -1,0 +1,12 @@
+**/.idea/
+**/.run/
+**/*.iml
+**/*.log
+**/*.log.*
+**/log/*
+**/target/**
+.idea
+*.iml
+/classes/**
+.DS_Store
+**/.DS_Store
