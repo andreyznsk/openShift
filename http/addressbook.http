@@ -1,0 +1,53 @@
+### Запросить все записи из БД
+GET http://localhost:9001/api/v1/addressbooks
+principal: john Doe
+
+{}
+
+### Запросить запись с возрастом
+
+GET http://localhost:9001/api/v1/addressbookAge/1
+
+{}
+
+### Пагинация
+GET http://localhost:8080/api/v1/addressbooks?page=1&size=1
+
+{}
+
+### Запросить запись с ID = -1
+GET http://localhost:8080/api/v1/addressbook/-1
+
+{}
+
+### Запросить запись с несуществующим ID
+GET http://localhost:8080/api/v1/addressbook/-999
+
+{}
+
+### Сохранение
+POST http://localhost:8080/api/v1/addressbook
+Content-Type: application/json
+
+{
+  "firstName": "Ivan",
+  "lastName": "Ivanov",
+  "phone": "+79999999999",
+  "birthday": "2000-01-01"
+}
+
+### Удались запись с ID = -2
+DELETE http://localhost:8080/api/v1/addressbook/-2
+
+{}
+
+### Попытка удались запись с несуществующим ID
+DELETE http://localhost:8080/api/v1/addressbook/-999
+
+{}
+
+### Get in OC Cluster
+curl http://addressbook.sbercode-59613721-5a0d-43d8-a23a-fe2179c4a620-work.svc.cluster.local:9090/api/v1/addressbooks
+
+addressbook.NAME_SPACE.svc.cluster.local:9090
+¡

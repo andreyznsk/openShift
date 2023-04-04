@@ -1,3 +1,6 @@
+server:
+  port: 9001
+
 logging:
   file:
     name: logs/tmpAdz.log
@@ -22,3 +25,16 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL10Dialect
     show-sql: false
+  elk:
+    host: localHost
+    port: 4501
+app:
+  ageCalcFunc:
+    host: http://localhost
+    port: 9002
+    api: /api/v1/calcAge
+  auth:
+    host: http://localhost
+    port: 9003
+    api: /api/v1/getAuth
+

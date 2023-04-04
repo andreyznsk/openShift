@@ -1,13 +1,16 @@
 package addressbook.controller;
 
 
+import addressbook.dto.AddressBookDto;
 import addressbook.model.AddressBook;
 import addressbook.repository.AddressBookRepository;
+import addressbook.service.AgeFunctionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,17 +20,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
+@PreAuthorize("hasRole('ROLE_USER')")
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class AddressBookController {
 
     private final AddressBookRepository addressBookRepository;
+    private final AgeFunctionService ageFunctionService;
 
     @GetMapping("addressbook/{id}")
     public ResponseEntity<AddressBook> getAddressBookById(@PathVariable Long id) {
@@ -45,6 +51,21 @@ public class AddressBookController {
                 size.map(Integer::valueOf).orElse(100));
         log.info("page:{}, size:{}", page, size);
          return addressBookRepository.findAll(pageRequest).stream().collect(Collectors.toList());
+    }
+
+    @GetMapping("addressbookAge/{id}")
+    public  ResponseEntity<AddressBookDto> getAddressBookDtoById(@PathVariable Long id) {
+        Optional<AddressBook> byId = addressBookRepository.findById(id);
+
+        return byId
+                .map(addressBook ->
+                        new ResponseEntity<>(
+                                new AddressBookDto(addressBook, getAge(addressBook.getBirthday())), HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    private int getAge(Timestamp birthday) {
+        return ageFunctionService.calcAge(birthday);
     }
 
     @PostMapping("addressbook")

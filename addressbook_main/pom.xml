@@ -13,11 +13,11 @@
 
     <profiles>
         <profile>
-            <id>dev_zad</id>
+            <id>dev</id>
             <build>
                 <resources>
                     <resource>
-                        <directory>${project.basedir}/env/dev_zad</directory>
+                        <directory>${project.basedir}/env/dev</directory>
                     </resource>
                 </resources>
             </build>
@@ -39,14 +39,22 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
-        <!--        TEST-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>4.4.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.13</version>
+        </dependency>
     </dependencies>
 
     <build>
