@@ -1,0 +1,24 @@
+logging:
+  file:
+    name: logs/tmpAdz.log
+#    level:
+#        ru: DEBUG
+#        org:
+#            springframework:
+#                batch: DEBUG
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/addressbook_db
+    username: addressbook
+    password: my_pass
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL10Dialect
+    show-sql: false

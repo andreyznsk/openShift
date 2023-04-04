@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<configuration monitorInterval="5">
+    <appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout  pattern="%d{ISO8601}: %p [%t] %c - %m%n"/>
+        </Console>
+        <Socket name="elk" host="localhost" port="4501">
+            <JsonTemplateLayout eventTemplateUri="classpath:EcsLayout.json">
+                <EventTemplateAdditionalField key="module" value="addressbook_main"/>
+            </JsonTemplateLayout>
+         </Socket>
+    </appenders>
+
+    <loggers>
+        <logger name="ru.sbt.kka.ws.AuditLogger" level="OFF"/>
+        <logger name="ru.sbt.kka.util.database.lock" level="OFF"/>
+
+        <root level="INFO">
+            <appender-ref ref="console"/>
+            <appender-ref ref="elk"/>
+        </root>
+    </loggers>
+</configuration>
+
