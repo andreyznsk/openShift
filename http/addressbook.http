@@ -8,7 +8,7 @@ login: john
 
 GET http://localhost:9001/api/v1/addressbookAge/2
 Content-Type: application/json
-login: eee
+login: john
 
 {}
 
@@ -17,6 +17,11 @@ login: eee
 POST http://localhost:9003/api/v1/auth
 
 john
+
+### Актуатор
+GET http://localhost:9001/actuator/health
+
+{}
 
 
 ### Пагинация

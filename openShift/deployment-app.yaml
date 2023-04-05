@@ -1,0 +1,119 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: addressbook-main
+  labels:
+    app: addressbook-main_lable_app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: addressbook-main
+  template:
+    metadata:
+      labels:
+        app: addressbook-main
+    spec:
+      containers:
+        - name: addressbook-main-app
+          image: andreyznsk/main:latest
+          ports:
+            - name: http
+              containerPort: 9001
+          volumeMounts:
+            - name: addressbook-cfg-vol
+              mountPath: /app/config/
+            - name: logback-config-vol
+              mountPath: /app/config/
+          envFrom:
+            - configMapRef:
+                name: db-config
+            - secretRef:
+                name: db-password
+      volumes:
+        - name: addressbook-cfg-vol
+          configMap:
+            name: addressbook-config-main
+        - name: logback-config-vol
+          configMap:
+            name: logback-config
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: addressbook-calc
+  labels:
+    app: addressbook-calc_lable_app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: addressbook-calc
+  template:
+    metadata:
+      labels:
+        app: addressbook-calc
+    spec:
+      containers:
+        - name: addressbook-calc-app
+          image: andreyznsk/calc:latest
+          ports:
+            - name: http
+              containerPort: 9002
+          volumeMounts:
+            - name: addressbook-cfg-vol
+              mountPath: /app/config/
+            - name: logback-config-vol
+              mountPath: /app/config/
+          envFrom:
+            - configMapRef:
+                name: db-config
+            - secretRef:
+                name: db-password
+      volumes:
+        - name: addressbook-cfg-vol
+          configMap:
+            name: addressbook-config-calc
+        - name: logback-config-vol
+          configMap:
+            name: logback-config
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: addressbook-auth
+  labels:
+    app: addressbook-auth_lable_app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: addressbook-auth
+  template:
+    metadata:
+      labels:
+        app: addressbook-auth
+    spec:
+      containers:
+        - name: addressbook-auth-app
+          image: andreyznsk/main:latest
+          ports:
+            - name: http
+              containerPort: 9003
+          volumeMounts:
+            - name: addressbook-cfg-vol
+              mountPath: /app/config/
+            - name: logback-config-vol
+              mountPath: /app/config/
+          envFrom:
+            - configMapRef:
+                name: db-config
+            - secretRef:
+                name: db-password
+      volumes:
+        - name: addressbook-cfg-vol
+          configMap:
+            name: addressbook-config-auth
+        - name: logback-config-vol
+          configMap:
+            name: logback-config

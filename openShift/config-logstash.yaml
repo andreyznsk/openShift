@@ -1,0 +1,34 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: logstash-config
+data:
+  logstash.conf : |
+    input {
+      tcp {
+        port => 4501
+        codec => json_lines
+      }
+    }
+    filter {
+      mutate {
+        remove_field => [ "host" ]
+      }
+      date {
+        match => [ "timeMillis", "UNIX_MS" ]
+      }
+    }
+    output {
+      elasticsearch {
+        hosts => "http://elasticsearch.NAMESPACE.svc.cluster.local:9200"
+        index => "addressbook"
+      }
+    }
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: jvm-opt
+data:
+  ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+  LS_JAVA_OPTS: "-Xmx256m -Xms256m"

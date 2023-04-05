@@ -1,0 +1,116 @@
+NAME: ad
+LAST DEPLOYED: Wed Apr  5 16:53:27 2023
+NAMESPACE: sbercode-3f54cfc4-c590-4559-bfa1-4c0bda91095b-work
+STATUS: pending-install
+REVISION: 1
+HOOKS:
+---
+# Source: addressbookoc/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "ad-addressbookoc-test-connection"
+  labels:
+    helm.sh/chart: addressbookoc-0.1.0
+    app.kubernetes.io/name: addressbookoc
+    app.kubernetes.io/instance: ad
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['ad-addressbookoc:80']
+  restartPolicy: Never
+MANIFEST:
+---
+# Source: addressbookoc/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ad-addressbookoc
+  labels:
+    helm.sh/chart: addressbookoc-0.1.0
+    app.kubernetes.io/name: addressbookoc
+    app.kubernetes.io/instance: ad
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: addressbookoc/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: ad-addressbookoc
+  labels:
+    helm.sh/chart: addressbookoc-0.1.0
+    app.kubernetes.io/name: addressbookoc
+    app.kubernetes.io/instance: ad
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: addressbookoc
+    app.kubernetes.io/instance: ad
+---
+# Source: addressbookoc/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ad-addressbookoc
+  labels:
+    helm.sh/chart: addressbookoc-0.1.0
+    app.kubernetes.io/name: addressbookoc
+    app.kubernetes.io/instance: ad
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: addressbookoc
+      app.kubernetes.io/instance: ad
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: addressbookoc
+        app.kubernetes.io/instance: ad
+    spec:
+      serviceAccountName: ad-addressbookoc
+      securityContext:
+        {}
+      containers:
+        - name: addressbookoc
+          securityContext:
+            {}
+          image: "andreyznsk/calc:latest"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {}
+
+NOTES:
+1. Get the application URL by running these commands:
+  export POD_NAME=$(kubectl get pods --namespace sbercode-3f54cfc4-c590-4559-bfa1-4c0bda91095b-work -l "app.kubernetes.io/name=addressbookoc,app.kubernetes.io/instance=ad" -o jsonpath="{.items[0].metadata.name}")
+  export CONTAINER_PORT=$(kubectl get pod --namespace sbercode-3f54cfc4-c590-4559-bfa1-4c0bda91095b-work $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
+  echo "Visit http://127.0.0.1:8080 to use your application"
+  kubectl --namespace sbercode-3f54cfc4-c590-4559-bfa1-4c0bda91095b-work port-forward $POD_NAME 8080:$CONTAINER_PORT

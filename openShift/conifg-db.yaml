@@ -1,0 +1,36 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: db-config
+data:
+  POSTGRESQL_USERNAME: addressbook
+  POSTGRESQL_DATABASE: addressbook_db
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: db-init-config
+data:
+  init-db.sql: |
+    DROP TABLE IF EXISTS ADDRESS_BOOK;
+    CREATE TABLE ADDRESS_BOOK
+    (
+        ID         BIGSERIAL PRIMARY KEY,
+        FIRST_NAME VARCHAR(50) NOT NULL,
+        LAST_NAME  VARCHAR(50) NOT NULL,
+        PHONE      VARCHAR(20),
+        BIRTHDAY   DATE
+    );
+    INSERT INTO ADDRESS_BOOK VALUES (1, 'andrey', 'zzz', '123456', '1984-05-11' );
+    INSERT INTO ADDRESS_BOOK VALUES (2, 'andrey2', 'aaa', '123456', '1994-05-11' );
+    INSERT INTO ADDRESS_BOOK VALUES (3, 'andrey3', 'bbb', '123456', '1995-05-11' );
+    INSERT INTO ADDRESS_BOOK VALUES (4, 'andrey4', 'ccc', '123456', '1996-05-11' );
+    INSERT INTO ADDRESS_BOOK VALUES (5, 'andre5', 'ddd', '123456', '1997-05-11' );
+    INSERT INTO ADDRESS_BOOK VALUES (6, 'andre6', 'xxx', '123456', '1998-05-11' );
+---
+kind: Secret
+apiVersion: v1
+metadata:
+  name: db-password
+stringData:
+  POSTGRESQL_PASSWORD: my_pass

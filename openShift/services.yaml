@@ -1,0 +1,90 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: db-service
+spec:
+  selector:
+    app: db-selector
+  ports:
+    - name: postgress
+      protocol: TCP
+      port: 5432
+      targetPort: tcp-postgres
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: addresbook-main-service
+spec:
+  selector:
+    app: addressbook-main
+  ports:
+    - name: addresbook-main-api
+      port: 9001
+      targetPort: http
+      protocol: TCP
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: addresbook-auth-service
+spec:
+  selector:
+    app: addressbook-auth
+  ports:
+    - name: addresbook-auth-api
+      port: 9003
+      targetPort: http
+      protocol: TCP
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: addresbook-calc-service
+spec:
+  selector:
+    app: addressbook-calc
+  ports:
+    - name: addresbook-calc-api
+      port: 9002
+      targetPort: http
+      protocol: TCP
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: Logstash-service
+spec:
+  selector:
+    app: Logstash
+  ports:
+    - name: logstash-api
+      port: 4501
+      targetPort: http
+      protocol: TCP
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: Kibana-service
+spec:
+  selector:
+    app: Kibana
+  ports:
+    - name: Kibana-api
+      port: 5601
+      targetPort: http
+      protocol: TCP
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: Elastic-service
+spec:
+  selector:
+    app: Elastic
+  ports:
+    - name: Elastic-api
+      port: 9200
+      targetPort: http
+      protocol: TCP

@@ -1,0 +1,35 @@
+kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+  name: db
+  labels:
+    app: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db-selector
+  serviceName: postgres-service
+  template:
+    metadata:
+      labels:
+        app: db-selector
+    spec:
+      containers:
+        - name: postgres-cont
+          image: bitnami/postgresql:15
+          ports:
+            - name: tcp-postgres
+              containerPort: 5432
+          volumeMounts:
+            - name: db-init-volume
+              mountPath: /docker-entrypoint-initdb.d/
+          envFrom:
+            - configMapRef:
+                name: db-config
+            - secretRef:
+                name: db-password
+      volumes:
+        - name: db-init-volume
+          configMap:
+            name: db-init-config
