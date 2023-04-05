@@ -5,7 +5,7 @@ metadata:
   labels:
     app: addressbook-main_lable_app
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: addressbook-main
@@ -16,20 +16,30 @@ spec:
     spec:
       containers:
         - name: addressbook-main-app
-          image: andreyznsk/main:latest
+          restartPolicy: never
+          image: andreyznsk/app:main.latest
           ports:
             - name: http
               containerPort: 9001
           volumeMounts:
             - name: addressbook-cfg-vol
-              mountPath: /app/config/
+              mountPath: /app/config/application.yaml
             - name: logback-config-vol
-              mountPath: /app/config/
+              mountPath: /app/config/logback-spring.xml
           envFrom:
             - configMapRef:
                 name: db-config
             - secretRef:
                 name: db-password
+          livnessProbe:
+            httpGet:
+              path: /actuator/health
+              port: http
+            failureTrashold: 100
+            readinessProbe:
+              httpGet:
+                path: /actuator/health
+                port: http
       volumes:
         - name: addressbook-cfg-vol
           configMap:
@@ -56,20 +66,30 @@ spec:
     spec:
       containers:
         - name: addressbook-calc-app
-          image: andreyznsk/calc:latest
+          restartPolicy: never
+          image: andreyznsk/app:calc.latest
           ports:
             - name: http
               containerPort: 9002
           volumeMounts:
             - name: addressbook-cfg-vol
-              mountPath: /app/config/
+              mountPath: /app/config/application.yaml
             - name: logback-config-vol
-              mountPath: /app/config/
+              mountPath: /app/config/logback-spring.xml
           envFrom:
             - configMapRef:
                 name: db-config
             - secretRef:
                 name: db-password
+          livnessProbe:
+            httpGet:
+              path: /actuator/health
+              port: http
+            failureTrashold: 100
+            readinessProbe:
+              httpGet:
+                path: /actuator/health
+                port: http
       volumes:
         - name: addressbook-cfg-vol
           configMap:
@@ -96,20 +116,30 @@ spec:
     spec:
       containers:
         - name: addressbook-auth-app
-          image: andreyznsk/main:latest
+          restartPolicy: never
+          image: andreyznsk/app:auth.latest
           ports:
             - name: http
               containerPort: 9003
           volumeMounts:
             - name: addressbook-cfg-vol
-              mountPath: /app/config/
+              mountPath: /app/config/application.yaml
             - name: logback-config-vol
-              mountPath: /app/config/
+              mountPath: /app/config/logback-spring.xml
           envFrom:
             - configMapRef:
                 name: db-config
             - secretRef:
                 name: db-password
+          livnessProbe:
+            httpGet:
+              path: /actuator/health
+              port: http
+            failureTrashold: 100
+            readinessProbe:
+              httpGet:
+                path: /actuator/health
+                port: http
       volumes:
         - name: addressbook-cfg-vol
           configMap:

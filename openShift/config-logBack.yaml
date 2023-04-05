@@ -5,30 +5,28 @@ metadata:
 data:
   logback-spring.xml: |
     <configuration>
-    <springProperty scope="context" name="host" source="spring.elk.host"/>
-    <springProperty scope="context" name="port" source="spring.elk.port"/>
-    <springProperty scope="context" name="module" source="app.module"/>
-
-    <include resource="/org/springframework/boot/logging/logback/base.xml"/>
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS,Europe/Moscow} [%thread] %-5level %logger{36} - %msg%n
-            </pattern>
-        </encoder>
-    </appender>
-
-    <appender name="ELK" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>${host}:${port}</destination>
-
-        <!-- encoder is required -->
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder" >
-            <customFields>{"module":"${module}"}</customFields>
-        </encoder>
-    </appender>
-
-    <root level="INFO">
-        <appender-ref ref="ELK"/>
-    </root>
-  </configuration>
-
-
+      <springProperty scope="context" name="host" source="spring.elk.host"/>
+      <springProperty scope="context" name="port" source="spring.elk.port"/>
+      <springProperty scope="context" name="module" source="app.module"/>
+  
+      <include resource="/org/springframework/boot/logging/logback/base.xml"/>
+      <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+          <encoder>
+              <pattern>%d{HH:mm:ss.SSS,Europe/Moscow} [%thread] %-5level %logger{36} - %msg%n
+              </pattern>
+          </encoder>
+      </appender>
+  
+      <appender name="ELK" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+          <destination>${host}:${port}</destination>
+  
+          <!-- encoder is required -->
+          <encoder class="net.logstash.logback.encoder.LogstashEncoder" >
+              <customFields>{"module":"${module}"}</customFields>
+          </encoder>
+      </appender>
+  
+      <root level="INFO">
+          <appender-ref ref="ELK"/>
+      </root>
+    </configuration>

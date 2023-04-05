@@ -4,8 +4,8 @@ metadata:
   name: addressbook-config-main
 data:
   application.yaml: |
-    logging:
-      config: ./config/logback-spring.xml
+    #logging:
+    #  config: /app/config/logback-spring.xml
     
     server:
       port: 9001
@@ -13,7 +13,7 @@ data:
     spring:
       datasource:
         driver-class-name: org.postgresql.Driver
-        url: postgres://db.NAMESPACE.svc.cluster.local:5432/${POSTGRESQL_DATABASE}
+        url: jdbc:postgresql://db-service.sbercode-28384620-1362-4d4a-93e2-dc4dcec64eee-work.svc.cluster.local:5432/${POSTGRESQL_DATABASE}
         username: ${POSTGRESQL_USERNAME}
         password: ${POSTGRESQL_PASSWORD}
       jpa:
@@ -26,16 +26,16 @@ data:
             dialect: org.hibernate.dialect.PostgreSQL10Dialect
         show-sql: false
       elk:
-        host: Logstash.NAMESPACE.svc.cluster.local
+        host: Logstash.sbercode-28384620-1362-4d4a-93e2-dc4dcec64eee-work.svc.cluster.local
         port: 4501
     app:
       module: main
       ageCalcFunc:
-        host: http://calc.NAMESPACE.svc.cluster.local
+        host: http://calc-service.sbercode-28384620-1362-4d4a-93e2-dc4dcec64eee-work.svc.cluster.local
         port: 9002
         api: /api/v1/calcAge
       auth:
-        host: http://auth.NAMESPACE.svc.cluster.local
+        host: http://auth-service.sbercode-28384620-1362-4d4a-93e2-dc4dcec64eee-work.svc.cluster.local
         port: 9003
         api: /api/v1/auth
 ---
@@ -45,13 +45,13 @@ metadata:
   name: addressbook-config-auth
 data:
   application.yaml: |
-    logging:
-      config: ./config/logback-spring.xml
+    #logging:
+    #  config: /app/config/logback-spring.xml
     server:
       port: 9003
     spring:
       elk:
-        host: Logstash.NAMESPACE.svc.cluster.local
+        host: Logstash.sbercode-28384620-1362-4d4a-93e2-dc4dcec64eee-work.svc.cluster.local
         port: 4501
     user:
       localDir: users/users.json
@@ -64,13 +64,13 @@ metadata:
   name: addressbook-config-calc
 data:
   application.yaml: |
-    logging:
-      config: ./config/logback-spring.xml
+    #logging:
+    #  config: /app/config/logback-spring.xml
     server:
       port: 9002
     spring:
       elk:
-        host: Logstash.NAMESPACE.svc.cluster.local
+        host: Logstash.sbercode-28384620-1362-4d4a-93e2-dc4dcec64eee-work.svc.cluster.local
         port: 4501
     app:
       module: calc

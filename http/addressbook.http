@@ -23,45 +23,10 @@ GET http://localhost:9001/actuator/health
 
 {}
 
+### Get in OC Cluster Запросить все записи из БД
+GET http://sbercode-28384620-1362-4d4a-93e2-dc4dcec64eee-work.apps.sbc-okd.pcbltools.ru/api/v1/addressbooks
+login: john
 
-### Пагинация
-GET http://localhost:8080/api/v1/addressbooks?page=1&size=1
-
-{}
-
-### Запросить запись с ID = -1
-GET http://localhost:8080/api/v1/addressbook/-1
-
-{}
-
-### Запросить запись с несуществующим ID
-GET http://localhost:8080/api/v1/addressbook/-999
-
-{}
-
-### Сохранение
-POST http://localhost:8080/api/v1/addressbook
-Content-Type: application/json
-
-{
-  "firstName": "Ivan",
-  "lastName": "Ivanov",
-  "phone": "+79999999999",
-  "birthday": "2000-01-01"
-}
-
-### Удались запись с ID = -2
-DELETE http://localhost:8080/api/v1/addressbook/-2
-
-{}
-
-### Попытка удались запись с несуществующим ID
-DELETE http://localhost:8080/api/v1/addressbook/-999
-
-{}
-
-### Get in OC Cluster
-curl http://addressbook.sbercode-59613721-5a0d-43d8-a23a-fe2179c4a620-work.svc.cluster.local:9090/api/v1/addressbooks
-
-addressbook.NAME_SPACE.svc.cluster.local:9090
-¡
+### Get in OC Cluster Запросить запись с возрастом
+GET http://sbercode-28384620-1362-4d4a-93e2-dc4dcec64eee-work.apps.sbc-okd.pcbltools.ru/api/v1/addressbookAge/2
+login: john
