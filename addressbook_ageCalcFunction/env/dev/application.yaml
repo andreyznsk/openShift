@@ -1,0 +1,10 @@
+server:
+  port: 9002
+
+spring:
+  elk:
+    host: localHost
+    port: 4501
+
+app:
+  module: calc

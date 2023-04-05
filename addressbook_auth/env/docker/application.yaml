@@ -1,0 +1,16 @@
+logging:
+  config: ./config/logback-spring.xml
+
+server:
+  port: 9003
+
+spring:
+  elk:
+    host: Logstash
+    port: 4501
+
+user:
+  localDir: users/users.json
+
+app:
+  module: auth

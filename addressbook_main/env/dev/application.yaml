@@ -1,0 +1,41 @@
+server:
+  port: 9001
+
+logging:
+  file:
+    name: logs/tmpAdz.log
+#    level:
+#        ru: DEBUG
+#        org:
+#            springframework:
+#                batch: DEBUG
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/addressbook_db
+    username: addressbook
+    password: my_pass
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL10Dialect
+    show-sql: false
+  elk:
+    host: localHost
+    port: 4501
+app:
+  module: main
+  ageCalcFunc:
+    host: http://localhost
+    port: 9002
+    api: /api/v1/calcAge
+  auth:
+    host: http://localhost
+    port: 9003
+    api: /api/v1/auth
+

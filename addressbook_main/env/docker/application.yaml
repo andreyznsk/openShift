@@ -1,0 +1,35 @@
+logging:
+  config: ./config/logback-spring.xml
+
+server:
+  port: 9001
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://postgres:5432/addressbook_db
+    username: addressbook
+    password: my_pass
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL10Dialect
+    show-sql: false
+  elk:
+    host: Logstash
+    port: 4501
+app:
+  module: main
+  ageCalcFunc:
+    host: http://calc
+    port: 9002
+    api: /api/v1/calcAge
+  auth:
+    host: http://auth
+    port: 9003
+    api: /api/v1/auth
+

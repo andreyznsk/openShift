@@ -1,0 +1,13 @@
+server:
+  port: 9003
+
+spring:
+  elk:
+    host: localHost
+    port: 4501
+
+user:
+  localDir: users/users.json
+
+app:
+  module: auth
