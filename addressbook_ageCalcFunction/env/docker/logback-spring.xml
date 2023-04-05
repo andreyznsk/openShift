@@ -21,7 +21,6 @@
     </appender>
 
     <root level="INFO">
-        <appender-ref ref="STDOUT"/>
         <appender-ref ref="ELK"/>
     </root>
 </configuration>

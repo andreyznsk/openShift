@@ -23,9 +23,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RestConfiguration {
 
-    @Value("${conf.rest.request.connect-timeout:10000}")
+    @Value("${conf.rest.request.connect-timeout:60000}")
     long connectTimeout;
-    @Value("${conf.rest.request.read-timeout:10000}")
+    @Value("${conf.rest.request.read-timeout:60000}")
     long readTimeout;
 
     @Bean

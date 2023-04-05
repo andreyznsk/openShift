@@ -5,3 +5,6 @@ spring:
   elk:
     host: localHost
     port: 4501
+
+app:
+  module: calc

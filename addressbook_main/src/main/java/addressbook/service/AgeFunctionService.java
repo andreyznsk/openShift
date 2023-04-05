@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -37,10 +39,14 @@ public class AgeFunctionService implements InitializingBean {
     }
 
     public int calcAge(Timestamp birthday) {
-        HttpEntity<Timestamp> entityReq = new HttpEntity<>(birthday, null);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
 
-        log.info("post \n\tHeader: {} \n\tbody: {}\n\tUrl: {}", null, JsonUtil.toJson(entityReq), calcEndPoint);
+        HttpEntity<Timestamp> entityReq = new HttpEntity<>(birthday, headers);
+
+
+        log.info("post \n\tHeader: {} \n\tbody: {}\n\tUrl: {}", headers, JsonUtil.toJson(birthday), calcEndPoint);
         ResponseEntity<Integer> respEntity = restTemplate
                 .postForEntity(calcEndPoint, entityReq, Integer.class);
         log.debug("POST findObjectsResponse response status \n\tcode:{};\n\tHeaders:{};\n\tBody:{}",

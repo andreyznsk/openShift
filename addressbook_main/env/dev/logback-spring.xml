@@ -1,6 +1,7 @@
 <configuration>
     <springProperty scope="context" name="host" source="spring.elk.host"/>
     <springProperty scope="context" name="port" source="spring.elk.port"/>
+    <springProperty scope="context" name="module" source="app.module"/>
 
     <include resource="/org/springframework/boot/logging/logback/base.xml"/>
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -15,7 +16,7 @@
 
         <!-- encoder is required -->
         <encoder class="net.logstash.logback.encoder.LogstashEncoder" >
-            <customFields>{"module":"addressbook_main"}</customFields>
+            <customFields>{"module":"${module}"}</customFields>
         </encoder>
     </appender>
 

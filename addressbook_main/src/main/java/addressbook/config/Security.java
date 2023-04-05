@@ -10,10 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
@@ -44,7 +42,7 @@ public class Security extends WebSecurityConfigurerAdapter {
 
     public RequestHeaderAuthenticationFilter requestHeaderAuthenticationFilter() throws Exception {
         RequestHeaderAuthenticationFilter filter = new RequestHeaderAuthenticationFilter();
-        filter.setPrincipalRequestHeader("principal");
+        filter.setPrincipalRequestHeader("login");
         filter.setAuthenticationManager(authenticationManagerBean());
         filter.setExceptionIfHeaderMissing(false);
         filter.setCheckForPrincipalChanges(true);
@@ -64,22 +62,18 @@ public class Security extends WebSecurityConfigurerAdapter {
     }
 
     public UserDetailsService customUserDetailsService() {
-        return new UserDetailsService() {
-            @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-                 if (authService.getUserByUserName(username)) {
+        return username -> {
+            if (authService.isUserAuthByUserName(username)) {
 
                 return User.withUsername(username)
                         .password("")
                         .roles("USER")
                         .build();
-                 } else return User.withUsername(username)
-                         .password("")
-                         .roles("ANONYMOUS")
-                         .build();
+            } else return User.withUsername(username)
+                    .password("")
+                    .roles("ANONYMOUS")
+                    .build();
 
-            }
         };
     }
 

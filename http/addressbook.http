@@ -1,14 +1,23 @@
 ### Запросить все записи из БД
 GET http://localhost:9001/api/v1/addressbooks
-principal: john Doe
+login: john
 
 {}
 
 ### Запросить запись с возрастом
 
-GET http://localhost:9001/api/v1/addressbookAge/1
+GET http://localhost:9001/api/v1/addressbookAge/2
+Content-Type: application/json
+login: eee
 
 {}
+
+### запросить Юзера
+
+POST http://localhost:9003/api/v1/auth
+
+john
+
 
 ### Пагинация
 GET http://localhost:8080/api/v1/addressbooks?page=1&size=1

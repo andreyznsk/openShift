@@ -1,0 +1,13 @@
+logging:
+  config: ./config/logback-spring.xml
+
+server:
+  port: 9002
+
+spring:
+  elk:
+    host: Logstash
+    port: 4501
+
+app:
+  module: calc
