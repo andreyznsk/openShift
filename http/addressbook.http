@@ -6,6 +6,14 @@ login: john
 
 ### Запросить запись с возрастом
 
+GET http://localhost:9001/api/v1/addressbookAge/3
+Content-Type: application/json
+login: john
+
+{}
+
+### Запросить запись с возрастом
+
 GET http://localhost:9001/api/v1/addressbookAge/2
 Content-Type: application/json
 login: john

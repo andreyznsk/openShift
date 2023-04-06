@@ -46,7 +46,7 @@ public class AuthService implements InitializingBean {
 
         HttpEntity<RequestLog> entityReq = new HttpEntity<>(new RequestLog(username), headers);
 
-        log.info("post \n\tHeader: {} \n\tbody: {}\n\tUrl: {}", headers, JsonUtil.toJson(username), authEndPoint);
+        log.debug("post \n\tHeader: {} \n\tbody: {}\n\tUrl: {}", headers, JsonUtil.toJson(username), authEndPoint);
         ResponseEntity<Boolean> respEntity = restTemplate
                 .postForEntity(authEndPoint, entityReq, Boolean.class);
         Boolean body = respEntity.getBody();

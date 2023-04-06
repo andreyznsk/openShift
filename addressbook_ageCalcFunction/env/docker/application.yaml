@@ -1,5 +1,5 @@
-logging:
-  config: ./config/logback-spring.xml
+#logging:
+#  config: ./config/logback-spring.xml
 
 server:
   port: 9002

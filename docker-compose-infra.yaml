@@ -26,8 +26,6 @@ services:
       - Elasticsearch
     ports:
     - '4501:4501'
-    - '4502:4502'
-    - '4503:4503'
     environment:
       LS_JAVA_OPTS: "-Xmx256m -Xms256m"    
     networks:
@@ -45,21 +43,6 @@ services:
       - Elasticsearch  
     networks:
       - backend
-
-  postgres:
-    container_name: postgres
-    image: bitnami/postgresql:15
-    ports:
-      - "5432:5432"
-    volumes:
-      - data-db:/var/lib/postgresql/data
-      - ./db/init_db.sql:/docker-entrypoint-initdb.d/init-db.sql
-    networks:
-      - backend
-    environment:
-      POSTGRES_USER: addressbook
-      POSTGRES_PASSWORD: my_pass
-      POSTGRES_DB: addressbook_db
 
 volumes:
   elastic_data: {}

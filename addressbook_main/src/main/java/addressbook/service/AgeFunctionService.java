@@ -46,7 +46,7 @@ public class AgeFunctionService implements InitializingBean {
         HttpEntity<Timestamp> entityReq = new HttpEntity<>(birthday, headers);
 
 
-        log.info("post \n\tHeader: {} \n\tbody: {}\n\tUrl: {}", headers, JsonUtil.toJson(birthday), calcEndPoint);
+        log.debug("post \n\tHeader: {} \n\tbody: {}\n\tUrl: {}", headers, JsonUtil.toJson(birthday), calcEndPoint);
         ResponseEntity<Integer> respEntity = restTemplate
                 .postForEntity(calcEndPoint, entityReq, Integer.class);
         log.debug("POST findObjectsResponse response status \n\tcode:{};\n\tHeaders:{};\n\tBody:{}",

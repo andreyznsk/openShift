@@ -1,5 +1,5 @@
 server:
-  port: 9001
+  port: ${serverPort:9990}
 
 logging:
   file:
@@ -24,7 +24,13 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL10Dialect
-    show-sql: false
+        cache:
+          region:
+            factory_class: com.hazelcast.hibernate.HazelcastCacheRegionFactory
+          use_second_level_cache: true
+      hazelcast:
+        cluster-name: addressbook-main
+    show-sql: true
   elk:
     host: localHost
     port: 4501

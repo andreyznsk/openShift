@@ -1,48 +1,5 @@
 version: '3.6'
 services:
-  Elasticsearch:
-    image: elasticsearch:7.14.2
-    container_name: elasticsearch
-    restart: always
-    volumes:
-    - elastic_data:/usr/share/elasticsearch/data/
-    environment:
-      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
-      discovery.type: single-node    
-    ports:
-    - '9200:9200'
-    - '9300:9300'
-    networks:
-      - backend
-
-  Logstash:
-    image: logstash:7.14.2
-    container_name: logstash
-    restart: always
-    volumes:
-    - ./elk/logstash/:/logstash_conf
-    command: logstash -f /logstash_conf/logstash.conf
-    depends_on:
-      - Elasticsearch
-    ports:
-    - '4501:4501'
-    environment:
-      LS_JAVA_OPTS: "-Xmx256m -Xms256m"    
-    networks:
-      - backend
-
-  Kibana:
-    image: kibana:7.14.2
-    container_name: kibana
-    restart: always       
-    ports:
-    - '5601:5601'
-    environment:
-      - ELASTICSEARCH_URL=http://elasticsearch:9200  
-    depends_on:
-      - Elasticsearch
-    networks:
-      - backend
 
   postgres:
     container_name: postgres
@@ -58,12 +15,10 @@ services:
       POSTGRES_USER: addressbook
       POSTGRES_PASSWORD: my_pass
       POSTGRES_DB: addressbook_db
-    depends_on:
-      - Logstash
 
   addressbook_auth:
     container_name: auth
-    image: andreyznsk/auth:latest
+    image: andreyznsk/app:auth.latest
     networks:
       - backend
     ports:
@@ -75,7 +30,7 @@ services:
 
   addressbook_calc:
     container_name: calc
-    image: andreyznsk/calc:latest
+    image: andreyznsk/app:calc.latest
     networks:
       - backend
     ports:
@@ -86,16 +41,23 @@ services:
       - addressbook_main
 
   addressbook_main:
-    container_name: main
-    image: andreyznsk/main:latest
+    image: andreyznsk/app:main.latest
     networks:
       - backend
     ports:
-      - "9001:9001"
+      - "9001"
     volumes:
       - ./addressbook_main/env/docker/:/app/config
     depends_on:
       - postgres
+    deploy:
+      replicas: 2
+      labels:
+        app: addressbook
+        langugae: java
+      resources:
+        limits:
+          cpus: "2.0"
 
 volumes:
   elastic_data: {}

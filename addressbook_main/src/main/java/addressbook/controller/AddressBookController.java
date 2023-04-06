@@ -37,6 +37,7 @@ public class AddressBookController {
 
     @GetMapping("addressbook/{id}")
     public ResponseEntity<AddressBook> getAddressBookById(@PathVariable Long id) {
+        log.info("get rq with id:{}", id);
         Optional<AddressBook> byId = addressBookRepository.findById(id);
         return byId
                 .map(addressBook -> new ResponseEntity<>(addressBook, HttpStatus.OK))
@@ -46,6 +47,7 @@ public class AddressBookController {
     @GetMapping("addressbooks")
     public List<AddressBook> getAddressBooks(@RequestParam("page") Optional<String> page,
                                              @RequestParam("size") Optional<String> size) {
+        log.info("get all");
         PageRequest pageRequest = PageRequest.of(
                 page.map(Integer::valueOf).orElse(0),
                 size.map(Integer::valueOf).orElse(100));
@@ -55,6 +57,7 @@ public class AddressBookController {
 
     @GetMapping("addressbookAge/{id}")
     public  ResponseEntity<AddressBookDto> getAddressBookDtoById(@PathVariable Long id) {
+        log.info("get rq with age, by id: {}", id);
         Optional<AddressBook> byId = addressBookRepository.findById(id);
 
         return byId

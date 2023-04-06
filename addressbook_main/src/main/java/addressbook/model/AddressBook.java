@@ -3,6 +3,8 @@ package addressbook.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +16,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Data
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Table(name = "address_book")
 @AllArgsConstructor
 @NoArgsConstructor
