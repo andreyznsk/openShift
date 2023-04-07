@@ -32,9 +32,19 @@ GET http://localhost:9001/actuator/health
 {}
 
 ### Get in OC Cluster Запросить все записи из БД
-GET http://sbercode-28384620-1362-4d4a-93e2-dc4dcec64eee-work.apps.sbc-okd.pcbltools.ru/api/v1/addressbooks
+GET http://sbercode-ceae00ed-8e51-4014-844a-9c55a0e2176e-work.apps.sbc-okd.pcbltools.ru/api/v1/addressbooks
 login: john
 
 ### Get in OC Cluster Запросить запись с возрастом
-GET http://sbercode-28384620-1362-4d4a-93e2-dc4dcec64eee-work.apps.sbc-okd.pcbltools.ru/api/v1/addressbookAge/2
+GET http://sbercode-ceae00ed-8e51-4014-844a-9c55a0e2176e-work.apps.sbc-okd.pcbltools.ru/api/v1/addressbookAge/2
 login: john
+
+
+###
+
+# curl -X GET --location "http://sbercode-ceae00ed-8e51-4014-844a-9c55a0e2176e-work.apps.sbc-okd.pcbltools.ru/api/v1/addressbookAge/2" -H "login: john"
+GET http://sbercode-29458557-11d6-4ac2-95c0-9673a35ec176-work.apps.sbc-okd.pcbltools.ru/api/v1/addressbookAge/2
+login: john
+
+###
+

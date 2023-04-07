@@ -6,14 +6,14 @@ metadata:
     app: switch
 spec:
   rules:
-    - host: sbercode-28384620-1362-4d4a-93e2-dc4dcec64eee-work.apps.sbc-okd.pcbltools.ru
+    - host: sbercode-29458557-11d6-4ac2-95c0-9673a35ec176-work.apps.sbc-okd.pcbltools.ru
       http:
         paths:
           - path: /api/v1
             pathType: Prefix
             backend:
               service:
-                name: addresbook-main-service
+                name: main-service
                 port:
                   name: main-api
 

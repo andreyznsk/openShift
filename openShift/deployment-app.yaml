@@ -5,7 +5,7 @@ metadata:
   labels:
     app: addressbook-main_lable_app
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: addressbook-main

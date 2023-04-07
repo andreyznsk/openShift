@@ -13,7 +13,7 @@ data:
     spring:
       datasource:
         driver-class-name: org.postgresql.Driver
-        url: jdbc:postgresql://db-service.sbercode-28384620-1362-4d4a-93e2-dc4dcec64eee-work.svc.cluster.local:5432/${POSTGRESQL_DATABASE}
+        url: jdbc:postgresql://db-service.sbercode-29458557-11d6-4ac2-95c0-9673a35ec176-work.svc.cluster.local:5432/${POSTGRESQL_DATABASE}
         username: ${POSTGRESQL_USERNAME}
         password: ${POSTGRESQL_PASSWORD}
       jpa:
@@ -24,18 +24,22 @@ data:
         properties:
           hibernate:
             dialect: org.hibernate.dialect.PostgreSQL10Dialect
-        show-sql: false
+            cache:
+              region:
+                factory_class: com.hazelcast.hibernate.HazelcastCacheRegionFactory
+              use_second_level_cache: true
+        show-sql: true
       elk:
-        host: Logstash.sbercode-28384620-1362-4d4a-93e2-dc4dcec64eee-work.svc.cluster.local
+        host: Logstash.sbercode-29458557-11d6-4ac2-95c0-9673a35ec176-work.svc.cluster.local
         port: 4501
     app:
       module: main
       ageCalcFunc:
-        host: http://calc-service.sbercode-28384620-1362-4d4a-93e2-dc4dcec64eee-work.svc.cluster.local
+        host: http://calc-service.sbercode-29458557-11d6-4ac2-95c0-9673a35ec176-work.svc.cluster.local
         port: 9002
         api: /api/v1/calcAge
       auth:
-        host: http://auth-service.sbercode-28384620-1362-4d4a-93e2-dc4dcec64eee-work.svc.cluster.local
+        host: http://auth-service.sbercode-29458557-11d6-4ac2-95c0-9673a35ec176-work.svc.cluster.local
         port: 9003
         api: /api/v1/auth
 ---
@@ -51,7 +55,7 @@ data:
       port: 9003
     spring:
       elk:
-        host: Logstash.sbercode-28384620-1362-4d4a-93e2-dc4dcec64eee-work.svc.cluster.local
+        host: Logstash.sbercode-29458557-11d6-4ac2-95c0-9673a35ec176-work.svc.cluster.local
         port: 4501
     user:
       localDir: users/users.json
@@ -70,7 +74,7 @@ data:
       port: 9002
     spring:
       elk:
-        host: Logstash.sbercode-28384620-1362-4d4a-93e2-dc4dcec64eee-work.svc.cluster.local
+        host: Logstash.sbercode-29458557-11d6-4ac2-95c0-9673a35ec176-work.svc.cluster.local
         port: 4501
     app:
       module: calc
