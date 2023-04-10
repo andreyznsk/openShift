@@ -8,5 +8,6 @@
 .idea
 *.iml
 /classes/**
+/cred/
 .DS_Store
 **/.DS_Store
