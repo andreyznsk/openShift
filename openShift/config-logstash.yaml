@@ -20,7 +20,7 @@ data:
     }
     output {
       elasticsearch {
-        hosts => "http://elasticsearch.sbercode-29458557-11d6-4ac2-95c0-9673a35ec176-work.svc.cluster.local:9200"
+        hosts => "http://elasticsearch.zaytsevad.svc.cluster.local:9200"
         index => "addressbook"
       }
     }

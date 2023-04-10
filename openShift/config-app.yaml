@@ -1,19 +1,33 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: addressbook-config-main
+  name: addressbook-config-cache
 data:
+  hazelcast.xml: |
+    <hazelcast xmlns="http://www.hazelcast.com/schema/config"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.hazelcast.com/schema/config
+             http://www.hazelcast.com/schema/config/hazelcast-config-4.2.xsd">
+
+      <cluster-name>addressbbok-cluster</cluster-name>
+      <network>
+          <join>
+              <multicast enabled="false"/>
+              <kubernetes enabled="true"/>
+          </join>
+      </network>
+    </hazelcast>
   application.yaml: |
     #logging:
     #  config: /app/config/logback-spring.xml
-    
+
     server:
-      port: 9001
-    
+      port: 9005
+
     spring:
       datasource:
         driver-class-name: org.postgresql.Driver
-        url: jdbc:postgresql://db-service.sbercode-29458557-11d6-4ac2-95c0-9673a35ec176-work.svc.cluster.local:5432/${POSTGRESQL_DATABASE}
+        url: jdbc:postgresql://db-service.zaytsevad.svc.cluster.local:5432/${POSTGRESQL_DATABASE}
         username: ${POSTGRESQL_USERNAME}
         password: ${POSTGRESQL_PASSWORD}
       jpa:
@@ -28,20 +42,12 @@ data:
               region:
                 factory_class: com.hazelcast.hibernate.HazelcastCacheRegionFactory
               use_second_level_cache: true
+              hazelcast:
+                configuration_file_path: /app/config/hazelcast.xml
         show-sql: true
       elk:
-        host: Logstash.sbercode-29458557-11d6-4ac2-95c0-9673a35ec176-work.svc.cluster.local
+        host: logstash-service.zaytsevad.svc.cluster.local
         port: 4501
-    app:
-      module: main
-      ageCalcFunc:
-        host: http://calc-service.sbercode-29458557-11d6-4ac2-95c0-9673a35ec176-work.svc.cluster.local
-        port: 9002
-        api: /api/v1/calcAge
-      auth:
-        host: http://auth-service.sbercode-29458557-11d6-4ac2-95c0-9673a35ec176-work.svc.cluster.local
-        port: 9003
-        api: /api/v1/auth
 ---
 kind: ConfigMap
 apiVersion: v1
@@ -55,7 +61,7 @@ data:
       port: 9003
     spring:
       elk:
-        host: Logstash.sbercode-29458557-11d6-4ac2-95c0-9673a35ec176-work.svc.cluster.local
+        host: logstash-service.zaytsevad.svc.cluster.local
         port: 4501
     user:
       localDir: users/users.json
@@ -74,7 +80,36 @@ data:
       port: 9002
     spring:
       elk:
-        host: Logstash.sbercode-29458557-11d6-4ac2-95c0-9673a35ec176-work.svc.cluster.local
+        host: logstash-service.zaytsevad.svc.cluster.local
         port: 4501
     app:
       module: calc
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: addressbook-config-main
+data:
+  application.yaml: |
+    #logging:
+    #  config: /app/config/logback-spring.xml
+    server:
+      port: 9001
+    spring:
+      elk:
+        host: logstash-service.zaytsevad.svc.cluster.local
+        port: 4501
+    app:
+      module: main
+      ageCalcFunc:
+        host: http://calc-service.zaytsevad.svc.cluster.local
+        port: 9002
+        api: /api/v1/calcAge
+      auth:
+        host: http://auth-service.zaytsevad.svc.cluster.local
+        port: 9003
+        api: /api/v1/auth
+      cache:
+        host: http://cache-service.zaytsevad.svc.cluster.local
+        port: 9005
+        api: /api/v1/cache

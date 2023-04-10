@@ -1,36 +1,37 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: addressbook-main
+  name: addressbook-cache
   labels:
-    app: addressbook-main_lable_app
+    app: addressbook-cache_lable_app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: addressbook-main
+      app: addressbook-cache
   template:
     metadata:
       labels:
-        app: addressbook-main
+        app: addressbook-cache
     spec:
       containers:
-        - name: addressbook-main-app
+        - name: addressbook-cache-app
           restartPolicy: never
-          image: andreyznsk/app:main.latest
+          image: andreyznsk/app:cache.latest
           ports:
             - name: http
-              containerPort: 9001
+              containerPort: 9005
           volumeMounts:
             - name: addressbook-cfg-vol
-              mountPath: /app/config/application.yaml
-            - name: logback-config-vol
-              mountPath: /app/config/logback-spring.xml
+              mountPath: /app/config/
           envFrom:
             - configMapRef:
                 name: db-config
             - secretRef:
                 name: db-password
+          env:
+            - name: JAVA_OPTS
+              value: ' --add-modules java.se --add-exports java.base/jdk.internal.ref=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.management/sun.management=ALL-UNNAMED --add-opens jdk.management/com.sun.management.internal=ALL-UNNAMED'
           livnessProbe:
             httpGet:
               path: /actuator/health
@@ -43,10 +44,7 @@ spec:
       volumes:
         - name: addressbook-cfg-vol
           configMap:
-            name: addressbook-config-main
-        - name: logback-config-vol
-          configMap:
-            name: logback-config
+            name: addressbook-config-cache
 ---
 kind: Deployment
 apiVersion: apps/v1
@@ -73,14 +71,7 @@ spec:
               containerPort: 9002
           volumeMounts:
             - name: addressbook-cfg-vol
-              mountPath: /app/config/application.yaml
-            - name: logback-config-vol
-              mountPath: /app/config/logback-spring.xml
-          envFrom:
-            - configMapRef:
-                name: db-config
-            - secretRef:
-                name: db-password
+              mountPath: /app/config/
           livnessProbe:
             httpGet:
               path: /actuator/health
@@ -94,9 +85,6 @@ spec:
         - name: addressbook-cfg-vol
           configMap:
             name: addressbook-config-calc
-        - name: logback-config-vol
-          configMap:
-            name: logback-config
 ---
 kind: Deployment
 apiVersion: apps/v1
@@ -123,14 +111,7 @@ spec:
               containerPort: 9003
           volumeMounts:
             - name: addressbook-cfg-vol
-              mountPath: /app/config/application.yaml
-            - name: logback-config-vol
-              mountPath: /app/config/logback-spring.xml
-          envFrom:
-            - configMapRef:
-                name: db-config
-            - secretRef:
-                name: db-password
+              mountPath: /app/config/
           livnessProbe:
             httpGet:
               path: /actuator/health
@@ -144,6 +125,45 @@ spec:
         - name: addressbook-cfg-vol
           configMap:
             name: addressbook-config-auth
-        - name: logback-config-vol
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: addressbook-main
+  labels:
+    app: addressbook-main_lable_app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: addressbook-main
+  template:
+    metadata:
+      labels:
+        app: addressbook-main
+    spec:
+      containers:
+        - name: addressbook-main-app
+          restartPolicy: Never
+          image: andreyznsk/app:main.latest
+          ports:
+            - name: http
+              containerPort: 9001
+          volumeMounts:
+            - name: addressbook-cfg-vol
+              mountPath: /app/config/
+          livnessProbe:
+            httpGet:
+              path: /actuator/health
+              port: http
+            failureTrashold: 100
+            readinessProbe:
+              httpGet:
+                path: /actuator/health
+                port: http
+      volumes:
+        - name: addressbook-cfg-vol
           configMap:
-            name: logback-config
+            name: addressbook-config-main
+---
+

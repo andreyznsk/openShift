@@ -19,5 +19,6 @@ public interface AddressBookRepository extends JpaRepository<AddressBook, Long> 
 
     Optional<AddressBook> findById(Long id);
 
+    Boolean deleteAllById(Long id);
 
 }

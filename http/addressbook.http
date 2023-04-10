@@ -1,12 +1,12 @@
 ### Запросить все записи из БД
-GET http://localhost:9001/api/v1/addressbooks
+GET http://localhost:9000/api/v1/addressbooks
 login: john
 
 {}
 
 ### Запросить запись с возрастом
 
-GET http://localhost:9001/api/v1/addressbookAge/3
+GET http://localhost:61450/api/v1/addressbookAge/1
 Content-Type: application/json
 login: john
 
@@ -32,18 +32,26 @@ GET http://localhost:9001/actuator/health
 {}
 
 ### Get in OC Cluster Запросить все записи из БД
-GET http://sbercode-ceae00ed-8e51-4014-844a-9c55a0e2176e-work.apps.sbc-okd.pcbltools.ru/api/v1/addressbooks
+GET http://zaytsevad.apps.okd.sbc-openshift.ru/api/v1/addressbooks
 login: john
 
 ### Get in OC Cluster Запросить запись с возрастом
-GET http://sbercode-ceae00ed-8e51-4014-844a-9c55a0e2176e-work.apps.sbc-okd.pcbltools.ru/api/v1/addressbookAge/2
+GET http://zaytsevad.apps.okd.sbc-openshift.ru/api/v1/addressbookAge/3
 login: john
 
 
 ###
 
+###
+
 # curl -X GET --location "http://sbercode-ceae00ed-8e51-4014-844a-9c55a0e2176e-work.apps.sbc-okd.pcbltools.ru/api/v1/addressbookAge/2" -H "login: john"
-GET http://sbercode-29458557-11d6-4ac2-95c0-9673a35ec176-work.apps.sbc-okd.pcbltools.ru/api/v1/addressbookAge/2
+GET http://zaytsevad.apps.okd.sbc-openshift.ru/api/v1/addressbookAge/2
+login: john
+
+###
+
+
+GET http://localhost:9001/api/v1/addressbookAge/2
 login: john
 
 ###

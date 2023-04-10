@@ -53,6 +53,19 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
+  name: cache-service
+spec:
+  selector:
+    app: addressbook-cache
+  ports:
+    - name: cache-api
+      port: 9005
+      targetPort: http
+      protocol: TCP
+---
+kind: Service
+apiVersion: v1
+metadata:
   name: logstash-service
 spec:
   selector:

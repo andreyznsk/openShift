@@ -22,13 +22,16 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <log4j.version>2.20.0</log4j.version>
+        <hazelcast.version>4.2</hazelcast.version>
+        <logstash-logback-encoder.version>4.11</logstash-logback-encoder.version>
     </properties>
 
     <modules>
         <module>addressbook_main</module>
         <module>addressbook_auth</module>
         <module>addressbook_ageCalcFunction</module>
+        <module>addressbook_cache</module>
+        <module>addressbook_common</module>
     </modules>
 
 
@@ -36,7 +39,7 @@
         <dependency>
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
-            <version>4.11</version>
+            <version>${logstash-logback-encoder.version}</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

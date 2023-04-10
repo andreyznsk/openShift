@@ -4,33 +4,8 @@ server:
 logging:
   file:
     name: logs/tmpAdz.log
-#    level:
-#        ru: DEBUG
-#        org:
-#            springframework:
-#                batch: DEBUG
 
 spring:
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/addressbook_db
-    username: addressbook
-    password: my_pass
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
-    hibernate:
-      ddl-auto: none
-    open-in-view: false
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQL10Dialect
-        cache:
-          region:
-            factory_class: com.hazelcast.hibernate.HazelcastCacheRegionFactory
-          use_second_level_cache: true
-      hazelcast:
-        cluster-name: addressbook-main
-    show-sql: true
   elk:
     host: localHost
     port: 4501
@@ -44,4 +19,8 @@ app:
     host: http://localhost
     port: 9003
     api: /api/v1/auth
+  cache:
+    host: http://localhost
+    port: 9005
+    api: /api/v1/cache
 

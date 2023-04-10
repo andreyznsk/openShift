@@ -1,0 +1,26 @@
+server:
+  port: 9005
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://postgres:5432/addressbook_db
+    username: addressbook
+    password: my_pass
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL10Dialect
+        cache:
+          region:
+            factory_class: com.hazelcast.hibernate.HazelcastCacheRegionFactory
+          use_second_level_cache: true
+    show-sql: true
+  elk:
+    host: Logstash
+    port: 4501
+

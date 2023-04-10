@@ -1,8 +1,0 @@
-hazelcast:
-  cluster-name: addressbbok-cluster
-  network:
-    join:
-      multicast:
-        enabled: false
-      kubernetes:
-        enabled: true
