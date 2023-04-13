@@ -1,0 +1,1 @@
+alias helm=/Applications/HELM/helm
