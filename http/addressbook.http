@@ -44,7 +44,6 @@ login: john
 
 ###
 
-# curl -X GET --location "http://sbercode-ceae00ed-8e51-4014-844a-9c55a0e2176e-work.apps.sbc-okd.pcbltools.ru/api/v1/addressbookAge/2" -H "login: john"
 GET http://zaytsevad.apps.okd.sbc-openshift.ru/api/v1/addressbookAge/2
 login: john
 
@@ -52,6 +51,11 @@ login: john
 
 
 GET http://localhost:9001/api/v1/addressbookAge/2
+login: john
+
+###
+
+GET http://zaytsevad.apps.okd.sbc-openshift.ru/api/v1/addressbooks
 login: john
 
 ###

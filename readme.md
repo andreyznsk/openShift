@@ -15,6 +15,26 @@
 ` GET http://zaytsevad.apps.okd.sbc-openshift.ru/api/v1/addressbooks
   login: john `
 
+### POSt in OC Cluster сохранить зазпись
+
+
+` POST http://zaytsevad.apps.okd.sbc-openshift.ru/api/v1/addressbook
+login: john 
+body json
+`
+
+### Актуатор
+` GET http://zaytsevad.apps.okd.sbc-openshift.ru/actuator/health `
+
+
+## Стек
+- Java 17
+- SpringBoot
+- Spring Security
+- Postgres
+- Hazelcast
+- REST
+
 
 ## Схема приложения
 
